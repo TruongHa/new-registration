@@ -1,0 +1,36 @@
+0.4.1
+- Fixed bug autocomplete not working on Manage Department page.
+- Adjusted format of generated sample id.
+
+0.4
+- Fixed bug when showing parameters for entering results.
+- Added validation into parameters when entering results.
+
+0.3.2
+- Fixed bug when clicking on Reset button on Queue, it says "Reset" instead of reseting the search form.
+
+0.3.1
+- Changed to show sample id in Worklist, Edit Result, Print Worklist.
+- Fixed bug allowing users to search for test from all investigations in worklist.
+
+0.3
+- Added feature allows user to manually enter the sample id of tests. 
+
+0.2.1
+- Moved Confidential Test tab to the end of navbar.
+- Fixed bug displaying 'enter result' link on Worklist page.
+- Added feature to highlight a parameter when entering results.
+- Changed to hide other test result rows except the current one in Worklist and Edit Result. 
+
+0.2
+- Added feature Confidential Test
+
+0.1.1
+- Fixed conflicts on OpenMRS 1.8
+
+0.1
+- Created essential tables
+- Updated Queue
+- Updated Worklist
+- Updated Edit Result
+- Update Manage Functional status
