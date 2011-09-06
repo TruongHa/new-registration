@@ -14,21 +14,21 @@
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 	-->
 	<!-- The default place to look for controllers that have annotations -->
-	<context:component-scan base-package="org.openmrs.module.laboratory.web" />
+	<context:component-scan base-package="org.openmrs.module.registration.web" />
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
-				<value>org.openmrs.module.laboratory.LaboratoryService</value>
+				<value>org.openmrs.module.registration.RegistrationService</value>
 				<bean
 					class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 					<property name="transactionManager">
 						<ref bean="transactionManager" />
 					</property>
 					<property name="target">
-						<bean class="org.openmrs.module.laboratory.impl.LaboratoryServiceImpl">
+						<bean class="org.openmrs.module.registration.impl.RegistrationServiceImpl">
 							<property name="dao">
 								<bean
-									class="org.openmrs.module.laboratory.db.hibernate.HibernateLaboratoryDAO">
+									class="org.openmrs.module.registration.db.hibernate.HibernateRegistrationDAO">
 									<property name="sessionFactory">
 										<ref bean="sessionFactory" />
 									</property>

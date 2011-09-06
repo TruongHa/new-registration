@@ -10,118 +10,49 @@
 	<package>@MODULE_PACKAGE@</package>
 	<author>Truong Ha</author>
 	<description>
-			Laboratory
+			Registration
 	</description>
 
-	<activator>@MODULE_PACKAGE@.LaboratoryActivator</activator>
+	<activator>@MODULE_PACKAGE@.RegistrationActivator</activator>
 	
 	<require_modules>
                   <require_module>org.openmrs.module.hospitalcore</require_module>
     </require_modules>
 	
-	<!-- <updateURL>https://dev.openmrs.org/modules/download/@MODULE_ID@/update.rdf</updateURL> -->
-	<!-- /Base Module Properties -->
-	
-	<require_version>1.6.1</require_version>	
-	
-	<extension>
-		<point>org.openmrs.admin.list</point>
-		<class>@MODULE_PACKAGE@.extension.html.AdminList</class>
-	</extension>
-	<extension>
-		<point>org.openmrs.gutter.tools</point>
-		<class>@MODULE_PACKAGE@.extension.html.LaboratoryHeader</class>
-	</extension>
-	
-	<!-- AOP
-	<advice>
-		<point>org.openmrs.api.FormService</point>
-		<class>@MODULE_PACKAGE@.advice.DuplicateFormAdvisor</class>
-	</advice>
-	 /AOP -->
-	
-	<privilege>
-		<name>Manage Laboratory</name>
-		<description>Allows user to manage Laboratory</description>
-	</privilege>
-	<privilege>
-		<name>Manage Laboratory Queue</name>
-		<description>Allows user to manage Laboratory Queue</description>
-	</privilege>
-	<privilege>
-		<name>Manage Laboratory Worklist</name>
-		<description>Allows user to manage Laboratory Worklist</description>
-	</privilege>
-	<privilege>
-		<name>Edit Laboratory Result</name>
-		<description>Allows user to edit Laboratory results</description>
-	</privilege>
-	<privilege>
-		<name>Print Laboratory Worklist</name>
-		<description>Allows user to print Laboratory worklist</description>
-	</privilege>
-	<privilege>
-		<name>Manage Laboratory Patient Report</name>
-		<description>Allows user to manage Laboratory patient report</description>
-	</privilege>	
-	<privilege>
-		<name>Manage Laboratory Functional Status</name>
-		<description>Allows user to manage Laboratory functional status</description>
-	</privilege>
-	<privilege>
-		<name>Access Laboratory</name>
-		<description>Allows user to access Laboratory</description>
-	</privilege>
-	<privilege>
-		<name>Manage Laboratory Confidential Test</name>
-		<description>Allows user to add confidential tests</description>
-	</privilege>	
+	<require_version>1.6.1</require_version>		
 	
 	<globalProperty>
-		<property>@MODULE_ID@.maintainCode</property>
-		<defaultValue></defaultValue>
+		<property>@MODULE_ID@.form</property>
+		<defaultValue>form</defaultValue>
 		<description>
-			Maintain code of Laboratory module
+			Form for registering a new patient
 		</description>
 	</globalProperty>
 	
 	<globalProperty>
-		<property>@MODULE_ID@.worklist.findAllInvestigation</property>
-		<defaultValue>false</defaultValue>
+		<property>@MODULE_ID@.identifier_prefix</property>
+		<defaultValue>SHDDU</defaultValue>
 		<description>
-			Allow users to search for test from all investigations
+			Patient identifier prefix
 		</description>
 	</globalProperty>
-	<!--
-	<dwr>
-		<allow>
-			<create creator="new" javascript="DWRFormEntryService">
-				<param name="class" value="org.openmrs.module.@MODULE_ID@.web.DWRFormEntryService"/>
-				<include method="enterForm"/>
-			</create>
-		</allow>
-
-		<signatures>
-			<![CDATA[
-			import @MODULE_PACKAGE@.web.DWRFormEntryService;
-			DWRFormEntryService.enterForm(Integer patientId, Integer formId, boolean useEncounter, List<String> fields);
-			]]>
-		</signatures>	
-	</dwr>
-	-->
 	
-	<!-- Servlets -->
-	<!-- Accessed through the url /pageContext()/moduleServlet/<moduleId>/<servlet-name> 
-	<servlet>
-		<servlet-name>formDownload</servlet-name>
-		<servlet-class>@MODULE_PACKAGE@.web.FormDownloadServlet</servlet-class>
-	</servlet>
-	-->
-	<!-- /Servlets -->
+	<globalProperty>
+		<property>@MODULE_ID@.location</property>
+		<defaultValue>1</defaultValue>
+		<description>
+			Location id
+		</description>
+	</globalProperty>
 	
+	<globalProperty>
+		<property>@MODULE_ID@.patientIdentifierType</property>
+		<defaultValue>1</defaultValue>
+		<description>
+			Patient Identifier Type id
+		</description>
+	</globalProperty>
 	
-	<!-- Internationalization -->
-	<!-- All message codes should start with @MODULE_ID@.* -->
 	<messages>
 		<lang>en</lang>
 		<file>messages.properties</file>
