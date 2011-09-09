@@ -15,7 +15,7 @@
 	var _tehsils = new Array();
 	<c:forEach var="tehsil" items="${tehsils}" varStatus="status">
 		_tehsils[${status.index}] = "${tehsil}";
-	</c:forEach>
+	</c:forEach>	
 	
 	/**
 	 ** MODEL FROM CONTROLLER
@@ -23,7 +23,10 @@
 	MODEL = {
 		patientIdentifier: "${patientIdentifier}",
 		districts: _districts,
-		tehsils: _tehsils
+		tehsils: _tehsils,
+		OPDs: "${OPDs}",
+		referralHospitals: "${referralHospitals}",
+		referralReasons: "${referralReasons}"
 	}
 </script>
 

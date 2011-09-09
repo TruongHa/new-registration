@@ -13,6 +13,8 @@ import org.openmrs.Location;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAddress;
+import org.openmrs.PersonAttribute;
+import org.openmrs.PersonAttributeType;
 import org.openmrs.PersonName;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.hospitalcore.util.GlobalPropertyUtil;
@@ -158,5 +160,20 @@ public class RegistrationUtils {
 		address.setCityVillage(tehsil);
 		
 		return address;
+	}
+	
+	/**
+	 * Get person attribute
+	 * @param id
+	 * @param value
+	 * @return
+	 */
+	public static PersonAttribute getPersonAttribute(Integer id, String value){
+		PersonAttributeType type = Context.getPersonService().getPersonAttributeType(id);		
+		PersonAttribute attribute = new PersonAttribute();
+		attribute.setAttributeType(type);
+		attribute.setValue(value);
+		logger.info(String.format("Saving new person attribute [name=%s, value=%s]", type.getName(), value));
+		return attribute;
 	}
 }

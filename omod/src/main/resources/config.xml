@@ -22,10 +22,18 @@
 	<require_version>1.6.1</require_version>		
 	
 	<globalProperty>
-		<property>@MODULE_ID@.form</property>
+		<property>@MODULE_ID@.form.patient.register</property>
 		<defaultValue>form</defaultValue>
 		<description>
 			Form for registering a new patient
+		</description>
+	</globalProperty>
+	
+	<globalProperty>
+		<property>@MODULE_ID@.form.patient.info</property>
+		<defaultValue>form</defaultValue>
+		<description>
+			View for showing patient information
 		</description>
 	</globalProperty>
 	
@@ -50,6 +58,30 @@
 		<defaultValue>1</defaultValue>
 		<description>
 			Patient Identifier Type id
+		</description>
+	</globalProperty>
+	
+	<globalProperty>
+		<property>@MODULE_ID@.encounterType.init</property>
+		<defaultValue>REGINITIAL</defaultValue>
+		<description>
+			Encounter type for the first visit
+		</description>
+	</globalProperty>
+	
+	<globalProperty>
+		<property>@MODULE_ID@.encounterType.revisit</property>
+		<defaultValue>REGREVISIT</defaultValue>
+		<description>
+			Encounter type for returned visits
+		</description>
+	</globalProperty>
+	
+	<globalProperty>
+		<property>@MODULE_ID@.newPatientConcept</property>
+		<defaultValue>New Patient</defaultValue>
+		<description>
+			Concept name of "New Patient" referral for patient queue
 		</description>
 	</globalProperty>
 	
