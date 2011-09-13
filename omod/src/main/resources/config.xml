@@ -22,22 +22,6 @@
 	<require_version>1.6.1</require_version>		
 	
 	<globalProperty>
-		<property>@MODULE_ID@.form.patient.register</property>
-		<defaultValue>form</defaultValue>
-		<description>
-			Form for registering a new patient
-		</description>
-	</globalProperty>
-	
-	<globalProperty>
-		<property>@MODULE_ID@.form.patient.info</property>
-		<defaultValue>form</defaultValue>
-		<description>
-			View for showing patient information
-		</description>
-	</globalProperty>
-	
-	<globalProperty>
 		<property>@MODULE_ID@.identifier_prefix</property>
 		<defaultValue>SHDDU</defaultValue>
 		<description>

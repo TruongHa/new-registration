@@ -31,8 +31,7 @@ public class RegistrationConstants {
 	public static final String FORM_FIELD_PATIENT_REFERRED_FROM = "patient.referred.from";
 	public static final String FORM_FIELD_PATIENT_REFERRED_REASON = "patient.referred.reason";
 
-	// concept name
-	public static final String CONCEPT_NAME_TEMPORARY_CATEGORY = "TEMPORARY CATEGORY";
+	// concept name	
 	public static final String CONCEPT_NAME_OPD_WARD = "OPD WARD";
 	public static final String CONCEPT_NAME_PATIENT_REFERRED_TO_HOSPITAL = "PATIENT REFERRED TO HOSPITAL?";
 	public static final String CONCEPT_NAME_REASON_FOR_REFERRAL = "REASON FOR REFERRAL";

@@ -30,6 +30,6 @@
 	}
 </script>
 
-${form}
+<jsp:include page="includablePatientRegisterForm.jsp"/>
 
 <%@ include file="/WEB-INF/template/footer.jsp" %>  

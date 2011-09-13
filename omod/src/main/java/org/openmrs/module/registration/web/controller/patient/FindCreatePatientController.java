@@ -1,13 +1,11 @@
 package org.openmrs.module.registration.web.controller.patient;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,11 +19,9 @@ import org.openmrs.PatientIdentifier;
 import org.openmrs.PersonAttribute;
 import org.openmrs.PersonName;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.hospitalcore.util.GlobalPropertyUtil;
 import org.openmrs.module.registration.util.RegistrationConstants;
 import org.openmrs.module.registration.util.RegistrationUtils;
 import org.openmrs.module.registration.web.controller.util.RegistrationWebUtils;
-import org.openmrs.util.OpenmrsUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,17 +36,9 @@ public class FindCreatePatientController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String showForm(HttpServletRequest request, Model model)
-			throws JaxenException, DocumentException, IOException {
-		String formFilename = GlobalPropertyUtil.getString(
-				RegistrationConstants.PROPERTY_FORM,
-				"Please define registering form");
-		File file = new File(OpenmrsUtil.getApplicationDataDirectory()
-				+ File.separator + "registration" + File.separator
-				+ formFilename);
-		String form = FileUtils.readFileToString(file);
+			throws JaxenException, DocumentException, IOException {		
 		model.addAttribute("patientIdentifier",
 				RegistrationUtils.getNewIdentifier());
-		model.addAttribute("form", form);
 		model.addAttribute("OPDs", RegistrationWebUtils
 				.getSubConcepts(RegistrationConstants.CONCEPT_NAME_OPD_WARD));
 		model.addAttribute(
@@ -88,12 +76,11 @@ public class FindCreatePatientController {
 				+ patient.getPatientId() + "&encounterId=" + encounter.getId();
 	}
 
-	/*
+	/**
 	 * Generate Patient From Parameters
-	 * 
-	 * @param request
-	 * 
+	 * @param parameters
 	 * @return
+	 * @throws ParseException
 	 */
 	private Patient generatePatient(Map<String, String> parameters)
 			throws ParseException {
