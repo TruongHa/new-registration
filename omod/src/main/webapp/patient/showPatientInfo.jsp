@@ -26,6 +26,6 @@
 	};
 </script>
 
-<jsp:include page="includablePatientInfoForm.jsp"/>
+<jsp:include page="../includes/dduPatientInfoForm.jsp"/>
 
 <%@ include file="/WEB-INF/template/footer.jsp" %>  

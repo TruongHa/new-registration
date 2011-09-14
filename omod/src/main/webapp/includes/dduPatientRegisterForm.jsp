@@ -32,13 +32,37 @@
 			optionDelimiter: "|"
 		});	
 		
-		jQuery("#searchbox").showPatientSearchBox({			
+		jQuery("#searchbox").showPatientSearchBox({		
+			searchBoxView: "registration",
 			resultView: "/module/registration/patientsearch/registration",
 			success: function(data){
 				PAGE.searchPatientSuccess(data);
 			},
 			beforeNewSearch: PAGE.searchPatientBefore
 		});
+		
+		// hide bpl and rsby number
+		jQuery("#bplField").hide();
+		jQuery("#rsbyField").hide();
+		jQuery("#patCatGeneral").attr("checked", "checked");
+		
+		// binding
+		jQuery("#bpl").click(function(){
+			VALIDATORS.bplCheck();
+		});
+		jQuery("#rsby").click(function(){
+			VALIDATORS.rsbyCheck();
+		});
+		jQuery("#patCatStaff").click(function(){
+			VALIDATORS.staffCheck();
+		});
+		jQuery("#patCatPoor").click(function(){
+			VALIDATORS.poorCheck();
+		});
+		jQuery("#patCatGeneral").click(function(){
+			VALIDATORS.generalCheck();
+		});
+		
 	});
 	
 	/**
@@ -160,7 +184,111 @@
 		/** TOGGLE PATIENT RESULT */
 		togglePatientResult: function(){
 			jQuery("#patientSearchResult").toggle();
-		}
+		}		
+	};
+	
+	/**
+	 ** VALIDATORS
+	 **/
+	VALIDATORS = {	
+	
+		/** VALIDATE PATIENT CATEGORY */
+	    validatePatientCategory: function () {
+	        if (jQuery("#patCatGeneral").attr('checked') == false 
+			 && jQuery("#patCatPoor").attr('checked') == false 
+			 && jQuery("#patCatStaff").attr('checked') == false 
+			 && jQuery("#patCatGovEmp").attr('checked') == false 
+			 && jQuery("#rsby").attr('checked') == false 
+			 && jQuery("#bpl").attr('checked') == false) {
+	            alert('You didn\'t choose any of the patient categories!');
+	            return false;
+	        } else {
+	            if (jQuery("#rsby").attr('checked')) {
+	                if (jQuery("#rsbyNumber").val().length <= 0) {
+	                    alert('Please enter RSBY number');
+	                    return false;
+	                }
+	            }
+	            if (jQuery("#bpl").attr('checked')) {
+	                if (jQuery("#bplNumber").val().length <= 0) {
+	                    alert('Please enter BPL number');
+	                    return false;
+	                }
+	            }
+	            return true;
+	        }
+	    },
+	
+		/** CHECK WHEN BPL CATEGORY IS SELECTED */
+		bplCheck: function () {			
+	        if (jQuery("#bpl").is(':checked')) {
+	            jQuery("#bplField").show();
+	            if (jQuery("#patCatGeneral").is(":checked")) jQuery("#patCatGeneral").click();
+	            if (jQuery("#patCatStaff").is(":checked")) {
+					jQuery("#patCatStaff").removeAttr("checked");
+				}
+	            if (jQuery("#patCatGovEmp").is(":checked")) jQuery("#patCatGovEmp").click();
+	        } else {
+	            jQuery("#bplNumber").val("");
+	            jQuery("#bplField").hide();
+	        }
+	    },
+		
+		/** CHECK WHEN RSBY CATEGORY IS SELECTED */
+	    rsbyCheck: function () {
+	        if (jQuery("#rsby").is(':checked')) {
+	            jQuery("#rsbyField").show();
+	            if (jQuery("#patCatGeneral").is(":checked")) jQuery("#patCatGeneral").click();
+	            if (jQuery("#patCatStaff").is(":checked")) {
+					jQuery("#patCatStaff").removeAttr("checked");
+				}
+	            if (jQuery("#patCatGovEmp").is(":checked")) jQuery("#patCatGovEmp").click();	            
+	        } else {
+	            jQuery("#rsbyNumber").val("");
+	            jQuery("#rsbyField").hide();
+	        }
+	    },
+		
+		/** CHECK WHEN STAFF CATEGORY IS SELECTED */
+	    staffCheck: function () {			
+	        if (jQuery("#patCatStaff").is(':checked')) {						
+	            if (jQuery("#bpl").is(":checked")) {
+					jQuery("#bpl").removeAttr("checked");
+					jQuery("#bplNumber").val("");
+					jQuery("#bplField").hide();
+				}
+	            if (jQuery("#rsby").is(":checked")) {
+					jQuery("#rsby").removeAttr("checked");
+					jQuery("#rsbyNumber").val("");
+					jQuery("#rsbyField").hide();
+				}
+	            if (jQuery("#patCatPoor").is(":checked")) jQuery("#patCatPoor").removeAttr("checked");;
+	        }
+	    },
+		/** CHECK WHEN POOR CATEGORY IS SELECTED */
+	    poorCheck: function () {
+	        if (jQuery("#patCatPoor").is(':checked')) {
+	            if (jQuery("#patCatGeneral").is(":checked")) jQuery("#patCatGeneral").removeAttr("checked");
+	            if (jQuery("#patCatStaff").is(":checked")) jQuery("#patCatStaff").removeAttr("checked");
+	            if (jQuery("#patCatGovEmp").is(":checked")) jQuery("#patCatGovEmp").removeAttr("checked");
+	        }
+	    },
+		/** CHECK WHEN GENERAL CATEGORY IS SELECTED */
+	    generalCheck: function (obj) {
+	        if (jQuery("#patCatGeneral").is(':checked')) {
+	            if (jQuery("#bpl").is(":checked")) {
+					jQuery("#bpl").removeAttr("checked");
+					jQuery("#bplNumber").val("");
+					jQuery("#bplField").hide();
+				}
+	            if (jQuery("#rsby").is(":checked")) {
+					jQuery("#rsby").removeAttr("checked");
+					jQuery("#rsbyNumber").val("");
+					jQuery("#rsbyField").hide();
+				}
+	            if (jQuery("#patCatPoor").is(":checked")) jQuery("#patCatPoor").removeAttr("checked");
+	        }
+	    },
 	};
 </script>
 
@@ -272,34 +400,34 @@
 				<table cellspacing="10">
 					<tr>
 						<td>
-							<input id="category.general" type="checkbox" name="person.attribute.14" value="General"/> General 
+							<input id="patCatGeneral" type="checkbox" name="person.attribute.14" value="General"/> General 
 						</td>
 						<td>
-							<input type="checkbox" name="person.attribute.14" value="Poor"/> Poor 
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<input id="category.general" type="checkbox" name="person.attribute.14" value="Staff"/> Staff 
-						</td>
-						<td>
-							<input type="checkbox" name="person.attribute.14" value="Government Employee"/> Government Employee 
+							<input id="patCatPoor" type="checkbox" name="person.attribute.14" value="Poor"/> Poor 
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input id="category.general" type="checkbox" name="person.attribute.14" value="RSBY"/> RSBY 
+							<input id="patCatStaff" type="checkbox" name="person.attribute.14" value="Staff"/> Staff 
 						</td>
 						<td>
-							RSBY Number <input name="person.attribute.11"/>
+							<input id="patCatGovEmp" type="checkbox" name="person.attribute.14" value="Government Employee"/> Government Employee 
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input id="category.general" type="checkbox" name="person.attribute.14" value="RSBY"/> BPL 
+							<input id="rsby" type="checkbox" name="person.attribute.14" value="RSBY"/> RSBY 
 						</td>
 						<td>
-							BPL Number <input name="person.attribute.10"/>
+							<span id="rsbyField">RSBY Number <input id="rsbyNumber" name="person.attribute.11"/></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input id="bpl" type="checkbox" name="person.attribute.14" value="BPL"/> BPL 
+						</td>
+						<td>
+							<span id="bplField">BPL Number <input id="bplNumber" name="person.attribute.10"/></span>
 						</td>
 					</tr>
 				</table>
