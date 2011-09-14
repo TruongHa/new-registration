@@ -9,13 +9,15 @@ public class RegistrationConstants {
 			+ ".identifier_prefix";
 	public static final String PROPERTY_PATIENT_IDENTIFIER_TYPE = MODULE_ID
 			+ ".patientIdentifierType";
-	public static final String PROPERTY_LOCATION = MODULE_ID + ".location";
-	public static final String PROPERTY_PATIENT_INFO_FORM = MODULE_ID
-			+ ".form.patient.info";
+	public static final String PROPERTY_LOCATION = MODULE_ID + ".location";	
 	public static final String PROPERTY_ENCOUNTER_TYPE_REGINIT = MODULE_ID
 			+ ".encounterType.init";
 	public static final String PROPERTY_ENCOUNTER_TYPE_REVISIT = MODULE_ID
 			+ ".encounterType.revisit";
+	public static final String PROPERTY_NUMBER_OF_DATE_VALIDATION = MODULE_ID
+	+ ".numberOfDateValidation";
+	public static final String PROPERTY_REGISTRATION_FEE = MODULE_ID
+	+ ".registrationFee";
 
 	// field names
 	public static final String FORM_FIELD_PATIENT_NAME = "patient.name";

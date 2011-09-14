@@ -1,5 +1,6 @@
 package org.openmrs.module.registration.impl;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.openmrs.Patient;
@@ -28,8 +29,8 @@ public class RegistrationServiceImpl extends BaseOpenmrsService implements
 		return dao.getRegistrationFee(id);
 	}	
 	
-	public List<RegistrationFee> getRegistrationFees(Patient patient) {
-		return dao.getRegistrationFees(patient);
+	public List<RegistrationFee> getRegistrationFees(Patient patient, Integer numberOfLastDate) throws ParseException {
+		return dao.getRegistrationFees(patient, numberOfLastDate);
 	}
 
 	public void deleteRegistrationFee(RegistrationFee fee) {

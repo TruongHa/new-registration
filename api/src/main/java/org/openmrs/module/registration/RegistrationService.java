@@ -1,5 +1,6 @@
 package org.openmrs.module.registration;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.openmrs.Patient;
@@ -25,11 +26,14 @@ public interface RegistrationService extends OpenmrsService {
 	public RegistrationFee getRegistrationFee(Integer id);
 	
 	/**
-	 * Get registration fee by patient
-	 * @param patient
+	 * Get list of registration fee
+	 * @param patient 
+	 * @param numberOfLastDate 
+	 * 		<b>null</b> to search all time 
 	 * @return
+	 * @throws ParseException
 	 */
-	public List<RegistrationFee> getRegistrationFees(Patient patient);
+	public List<RegistrationFee> getRegistrationFees(Patient patient, Integer numberOfLastDate) throws ParseException;
 
 	/**
 	 * Delete a registration fee

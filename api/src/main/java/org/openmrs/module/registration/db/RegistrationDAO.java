@@ -1,5 +1,6 @@
 package org.openmrs.module.registration.db;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.openmrs.Patient;
@@ -24,11 +25,15 @@ public interface RegistrationDAO {
 	public RegistrationFee getRegistrationFee(Integer id);
 	
 	/**
-	 * Get registration fees by patient
-	 * @param patient
+	 * Get list of registration fee
+	 * @param patient 
+	 * @param numberOfLastDate 
+	 * 		<b>null</b> to search all time 
 	 * @return
+	 * @throws ParseException
 	 */
-	public List<RegistrationFee> getRegistrationFees(Patient patient);
+	public List<RegistrationFee> getRegistrationFees(Patient patient,
+			Integer numberOfLastDate) throws ParseException;
 
 	/**
 	 * Delete registration fee

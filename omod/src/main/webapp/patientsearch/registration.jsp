@@ -3,8 +3,10 @@
 <script type="text/javascript">
 	PATIENTSEARCHRESULT = {
 		oldBackgroundColor: "",
+		
+		/** Click to view patient info */
 		click: function(patientId){
-			alert(patientId);
+			window.location.href = openmrsContextPath + "/module/registration/showPatientInfo.form?patientId=" + patientId;
 		}
 	};
 	

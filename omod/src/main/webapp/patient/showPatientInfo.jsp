@@ -20,7 +20,9 @@
 		patientAddress: "${patient.address}",
 		patientAttributes: _attributes,
 		currentDateTime: "${currentDateTime}",		
-		OPDs: "${OPDs}"
+		OPDs: "${OPDs}",
+		dueDate: "${dueDate}",
+		daysLeft: "${daysLeft}"
 	};
 </script>
 

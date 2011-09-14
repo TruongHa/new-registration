@@ -22,15 +22,15 @@
 		<description>
 			Create table registration fee
 		</description>
-		<sql>
+		<sql>			
 			CREATE TABLE IF NOT EXISTS `registration_fee` (
-			  `registration_fee_id` int(11) NOT NULL,
+			  `registration_fee_id` int(11) NOT NULL AUTO_INCREMENT,
 			  `fee` decimal(19,2) NOT NULL,
 			  `patient_id` int(11) NOT NULL,
 			  `created_by` int(11) NOT NULL,
 			  `created_on` datetime NOT NULL,
 			  PRIMARY KEY (`registration_fee_id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;			
 		</sql>
 	</diff>
 </sqldiff>

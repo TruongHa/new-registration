@@ -69,6 +69,22 @@
 		</description>
 	</globalProperty>
 	
+	<globalProperty>
+		<property>@MODULE_ID@.numberOfDateValidation</property>
+		<defaultValue>0</defaultValue>
+		<description>
+			Number of date validation
+		</description>
+	</globalProperty>
+	
+	<globalProperty>
+		<property>@MODULE_ID@.registrationFee</property>
+		<defaultValue>0</defaultValue>
+		<description>
+			Registration Fee
+		</description>
+	</globalProperty>
+	
 	<messages>
 		<lang>en</lang>
 		<file>messages.properties</file>

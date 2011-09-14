@@ -13,6 +13,20 @@
 			delimiter: ",",
 			optionDelimiter: "|"
 		});
+		if(MODEL.dueDate.length>0){
+			jQuery("#buySlip").hide();
+			
+			value = "Validate until " + MODEL.dueDate;
+			if(parseInt(MODEL.daysLeft)>1){
+				value += " (" + MODEL.daysLeft + " days left).";				
+			} else {
+				value += " (1 day left).";
+			}
+			jQuery("#validationDate").html(value);
+				
+		} else {
+			jQuery("#printSlip").hide();
+		}
 	});
 	
 	/**
@@ -49,7 +63,7 @@
 		 * }
 		 */
 		fillOptions: function(divId, option) {
-			jQuery(divId).empty();
+			jQuery(divId).empty(); 
 			if(option.delimiter == undefined){
 				if(option.index == undefined){
 					jQuery.each(option.data, function(index, value){	
@@ -78,9 +92,28 @@
 				});
 			}
 		},
+		
+		/** Buy A New Slip */		
+		buySlip: function(){
+			jQuery.ajax({
+				type : "GET",
+				url : openmrsContextPath + "/module/registration/ajax/buySlip.htm",
+				data : ({
+					patientId: MODEL.patientId
+				}),				
+				success : function(data) {										
+					window.location.href = window.location.href;
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError);
+				}
+			});
+		}
 	};
 </script>
-<input type="button" value="Print" onClick="PAGE.submit();"/>
+<input id="printSlip" type="button" value="Print" onClick="PAGE.submit();"/>
+<input id="buySlip" type="button" value="Buy a new slip" onClick="PAGE.buySlip();"/>
+<span id="validationDate"></span>
 <div id="patientInfoPrintArea">
 	<center>
 		<form id="patientInfoForm" method="POST">	
