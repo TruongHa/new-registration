@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.openmrs.module.registration.model">
+
+	<class name="RegistrationFee" table="registration_fee" batch-size="500">
+
+		<id name="id" type="int" column="registration_fee_id"
+			unsaved-value="0">
+				<generator class="native"/>
+		</id>
+		<property name="createdOn" column="created_on" />
+		<property name="fee" column="fee" />
+		<many-to-one name="patient" column="patient_id" class="org.openmrs.Patient"/>
+		<many-to-one name="createdBy" column="created_by" class="org.openmrs.User"/>
+	</class>
+</hibernate-mapping>

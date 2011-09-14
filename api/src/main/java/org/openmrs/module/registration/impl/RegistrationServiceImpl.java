@@ -1,21 +1,15 @@
 package org.openmrs.module.registration.impl;
 
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openmrs.Patient;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.registration.RegistrationService;
 import org.openmrs.module.registration.db.RegistrationDAO;
+import org.openmrs.module.registration.model.RegistrationFee;
 
 public class RegistrationServiceImpl extends BaseOpenmrsService implements
-		RegistrationService {
-
-	private Log logger = LogFactory.getLog(getClass());
-	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		RegistrationService {	
 
 	public RegistrationServiceImpl() {
 	}
@@ -25,12 +19,20 @@ public class RegistrationServiceImpl extends BaseOpenmrsService implements
 	public void setDao(RegistrationDAO dao) {
 		this.dao = dao;
 	}
-
-	public List<Patient> searchPatient(String hql) {
-		return dao.searchPatient(hql);
-	}
 	
-	public BigInteger getPatientSearchResultCount(String hql){
-		return dao.getPatientSearchResultCount(hql);
+	public RegistrationFee saveRegistrationFee(RegistrationFee fee) {
+		return dao.saveRegistrationFee(fee);
 	}
+
+	public RegistrationFee getRegistrationFee(Integer id) {
+		return dao.getRegistrationFee(id);
+	}	
+	
+	public List<RegistrationFee> getRegistrationFees(Patient patient) {
+		return dao.getRegistrationFees(patient);
+	}
+
+	public void deleteRegistrationFee(RegistrationFee fee) {
+		dao.deleteRegistrationFee(fee);
+	}	
 }
