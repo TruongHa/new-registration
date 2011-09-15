@@ -25,6 +25,6 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/moduleResources/hospitalcore/scripts/jquery/jquery.loadmask.min.js"></script> 
 <script type="text/javascript" src="${pageContext.request.contextPath}/moduleResources/hospitalcore/scripts/jquery/jquery.tablesorter.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/moduleResources/hospitalcore/scripts/jquery/jquery.formfilling.js"></script>
-<script type="text/javascript"  src="${pageContext.request.contextPath}/moduleResources/hospitalcore/scripts/common-utils.js" ></script>
+<script type="text/javascript"  src="${pageContext.request.contextPath}/moduleResources/hospitalcore/scripts/string-utils.js" ></script>
 <script type="text/javascript"  src="${pageContext.request.contextPath}/moduleResources/hospitalcore/scripts/paging.js" ></script> 
 

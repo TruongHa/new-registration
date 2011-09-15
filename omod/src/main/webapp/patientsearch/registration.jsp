@@ -1,12 +1,20 @@
 <%@ include file="/WEB-INF/template/include.jsp" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="org.openmrs.Patient" %>
 
 <script type="text/javascript">
+	
 	PATIENTSEARCHRESULT = {
 		oldBackgroundColor: "",
 		
 		/** Click to view patient info */
-		click: function(patientId){
+		visit: function(patientId){			
 			window.location.href = openmrsContextPath + "/module/registration/showPatientInfo.form?patientId=" + patientId;
+		},
+		
+		/** Edit a patient */
+		editPatient: function(patientId){
+			window.location.href = openmrsContextPath + "/module/registration/editPatient.form?patientId=" + patientId;
 		}
 	};
 	
@@ -34,14 +42,7 @@
 		// insert images
 		jQuery(".editImage").each(function(index, value){
 			jQuery(this).attr("src", openmrsContextPath + "/images/edit.gif");
-		});
-		
-		// bind click on row
-		jQuery(".patientSearchRow").click(function(){
-			obj = jQuery(this);
-			console.dir(obj);
-		});
-		
+		});		
 	});
 </script>
 
@@ -55,23 +56,26 @@
 			<td><b>Age</b></td>
 			<td><b>Gender</b></td>			
 			<td><b>Birthdate</b></td>
+			<td><b>Relative Name</b></td>
 		</tr>
 		<c:forEach items="${patients}" var="patient" varStatus="varStatus">
-			<tr class='${varStatus.index % 2 == 0 ? "oddRow" : "evenRow" } patientSearchRow' onClick="PATIENTSEARCHRESULT.click(${patient.patientId});">
-				<td>
-					<center><img class="editImage"/></center>
+			<tr class='${varStatus.index % 2 == 0 ? "oddRow" : "evenRow" } patientSearchRow'>
+				<td onclick="PATIENTSEARCHRESULT.editPatient(${patient.patientId});">
+					<center>
+						<img class="editImage" title="Edit patient information"/>
+					</center>
 				</td>
-				<td>
+				<td onclick="PATIENTSEARCHRESULT.visit(${patient.patientId});">
 					${patient.patientIdentifier.identifier}
 				</td>
-				<td>${patient.givenName} ${patient.middleName} ${patient.familyName}</td>
-				<td> 
+				<td onclick="PATIENTSEARCHRESULT.visit(${patient.patientId});">${patient.givenName} ${patient.middleName} ${patient.familyName}</td>
+				<td onclick="PATIENTSEARCHRESULT.visit(${patient.patientId});"> 
                 	<c:choose>
                 		<c:when test="${patient.age == 0}">&lt 1</c:when>
                 		<c:otherwise >${patient.age}</c:otherwise>
                 	</c:choose>
                 </td>
-				<td>
+				<td onclick="PATIENTSEARCHRESULT.visit(${patient.patientId});">
 					<c:choose>
                 		<c:when test="${patient.gender eq 'M'}">
 							<img src="${pageContext.request.contextPath}/images/male.gif"/>
@@ -79,8 +83,18 @@
                 		<c:otherwise><img src="${pageContext.request.contextPath}/images/female.gif"/></c:otherwise>
                 	</c:choose>
 				</td>                
-				<td> 
+				<td onclick="PATIENTSEARCHRESULT.visit(${patient.patientId});"> 
                 	<openmrs:formatDate date="${patient.birthdate}"/>
+                </td>
+				<td onclick="PATIENTSEARCHRESULT.visit(${patient.patientId});"> 
+                	<%
+						Patient patient = (Patient) pageContext.getAttribute("patient");
+						Map<Integer, Map<Integer, String>> attributes = (Map<Integer, Map<Integer, String>>) pageContext.findAttribute("attributeMap");						
+						Map<Integer, String> patientAttributes = (Map<Integer, String>) attributes.get(patient.getPatientId());						
+						String relativeName = patientAttributes.get(8); 
+						if(relativeName!=null)
+							out.print(relativeName);
+					%>
                 </td>
 			</tr>
 		</c:forEach>

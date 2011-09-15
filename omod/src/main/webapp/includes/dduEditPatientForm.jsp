@@ -6,49 +6,57 @@
 </style>
 <script type="text/javascript">
 
-	jQuery(document).ready(function(){
-		jQuery("#patientRegistrationForm").fillForm("patient.identifier==" + MODEL.patientIdentifier);			
-		jQuery('#birthdate').datepicker({yearRange:'c-100:c+100', dateFormat: 'dd/mm/yy', changeMonth: true, changeYear: true});	
-		jQuery('#birthdate').change(PAGE.checkBirthDate);
+	jQuery(document).ready(function(){		
+
+		// Fill data into address dropdowns
 		PAGE.fillOptions("#districts", {
 			data:MODEL.districts
 		});		
 		PAGE.fillOptions("#tehsils", {
 			data:MODEL.tehsils[0].split(',')
-		});		
-
-		MODEL.OPDs = " ,Please select an OPD room to visit|" + MODEL.OPDs;
-		PAGE.fillOptions("#opdWard", {
-			data:MODEL.OPDs,
-			delimiter: ",",
-			optionDelimiter: "|"
-		});						
-		PAGE.fillOptions("#referralHospitals", {
-			data:MODEL.referralHospitals,
-			delimiter: ",",
-			optionDelimiter: "|"
-		});	
-		PAGE.fillOptions("#referralReasons	", {
-			data:MODEL.referralReasons	,
-			delimiter: ",",
-			optionDelimiter: "|"
 		});	
 		
-		jQuery("#searchbox").showPatientSearchBox({		
-			searchBoxView: "registration",
-			resultView: "/module/registration/patientsearch/registration",
-			success: function(data){
-				PAGE.searchPatientSuccess(data);
-			},
-			beforeNewSearch: PAGE.searchPatientBefore
+		// Set value for patient information
+		formValues  = "patient.name==" + MODEL.patientName + "||";
+		formValues += "patient.birthdate==" + MODEL.patientBirthdate + "||";
+		formValues += "patient.gender==" + MODEL.patientGender + "||";
+		formValues += "patient.identifier==" + MODEL.patientIdentifier + "||";
+		formValues += "patient.gender==" + MODEL.patientGender[0] + "||";
+		formValues += "person.attribute.8==" + MODEL.patientAttributes[8] + "||";							
+		jQuery("#patientRegistrationForm").fillForm(formValues);
+		PAGE.checkBirthDate();
+		
+		// Set value for address
+		addressParts = MODEL.patientAddress.split(',');		
+		jQuery("#districts").val(StringUtils.trim(addressParts[1]));
+		PAGE.changeDistrict();
+		jQuery("#tehsils").val(StringUtils.trim(addressParts[0]));
+		
+		/* Set Value For Attributes */
+		// Patient Category
+		attributes = MODEL.patientAttributes[14];
+		jQuery.each(attributes.split(","), function(index, value){
+			jQuery("#patientRegistrationForm").fillForm("person.attribute.14==" + value + "||");
 		});
 		
-		// hide bpl and rsby number
-		jQuery("#bplField").hide();
-		jQuery("#rsbyField").hide();
-		jQuery("#patCatGeneral").attr("checked", "checked");
+		// RSBY Number
+		if(!StringUtils.isBlank(MODEL.patientAttributes[11])){
+			jQuery("#patientRegistrationForm").fillForm("person.attribute.11==" + MODEL.patientAttributes[11] + "||");
+		} else {
+			jQuery("#rsbyField").hide();
+		}
+		
+		// BPL Number
+		if(!StringUtils.isBlank(MODEL.patientAttributes[10])){
+			jQuery("#patientRegistrationForm").fillForm("person.attribute.10==" + MODEL.patientAttributes[10] + "||");
+		} else {
+			jQuery("#bplField").hide();
+		}
 		
 		// binding
+		jQuery('#birthdate').datepicker({yearRange:'c-100:c+100', dateFormat: 'dd/mm/yy', changeMonth: true, changeYear: true});	
+		jQuery('#birthdate').change(PAGE.checkBirthDate);		
+		
 		jQuery("#bpl").click(function(){
 			VALIDATORS.bplCheck();
 		});
@@ -75,16 +83,14 @@
 		submit: function(){						
 			
 			// Capitalize fullname and relative name
-			fullNameInCapital = StringUtils.capitalize(jQuery("#nameOrIdentifier", jQuery("#patientSearchForm")).val());
+			fullNameInCapital = StringUtils.capitalize(jQuery("#patientName", jQuery("#patientRegistrationForm")).val());
 			jQuery("#patientName", jQuery("#patientRegistrationForm")).val(fullNameInCapital);
-			jQuery("#nameOrIdentifier", jQuery("#patientSearchForm")).val(fullNameInCapital);
-			jQuery("#patientName", jQuery("#patientRegistrationForm")).val(fullNameInCapital);			
 			relativeNameInCaptital = StringUtils.capitalize(jQuery("#patientRelativeName").val());
 			jQuery("#patientRelativeName").val(relativeNameInCaptital);
 			
 			// Validate and submit
 			if(this.validateRegisterForm()){
-				jQuery("#patientRegistrationForm").submit();				
+				jQuery("#patientRegistrationForm").submit();								
 			}
 		},
 		
@@ -122,9 +128,9 @@
 		 *		optionDelimiter: seperator for options
 		 * }
 		 */
-		fillOptions: function(divId, option) {
+		fillOptions: function(divId, option) {			
 			jQuery(divId).empty();
-			if(option.delimiter == undefined){
+			if(option.delimiter == undefined){				
 				if(option.index == undefined){
 					jQuery.each(option.data, function(index, value){	
 						if(value.length>0){
@@ -139,8 +145,10 @@
 					});
 				}
 			} else {
+				
 				options = option.data.split(option.optionDelimiter);
 				jQuery.each(options, function(index, value){
+					
 					values = value.split(option.delimiter);
 					optionValue = values[0];
 					optionLabel = values[1];
@@ -172,32 +180,6 @@
 			});
 		},
 		
-		/** SHOW OR HIDE REFERRAL INFO */
-		toogleReferralInfo: function(obj){
-			checkbox = jQuery(obj);
-			if(checkbox.is(":checked")){
-				jQuery("#referralDiv").show();
-			} else {
-				jQuery("#referralDiv").hide();
-			}
-		},
-		
-		/** CALLBACK WHEN SEARCH PATIENT SUCCESSFULLY */
-		searchPatientSuccess: function(data){			
-			jQuery("#numberOfFoundPatients").html("Similar patients: " + data.totalRow + "(<a href='javascript:PAGE.togglePatientResult();'>show/hide</a>)");
-		},
-		
-		/** CALLBACK WHEN BEFORE SEARCHING PATIENT */
-		searchPatientBefore: function(data){
-			jQuery("#numberOfFoundPatients").html("<center><img src='" + openmrsContextPath + "/moduleResources/hospitalcore/ajax-loader.gif" + "'/></center>");
-			jQuery("#patientSearchResult").hide();
-		},
-		
-		/** TOGGLE PATIENT RESULT */
-		togglePatientResult: function(){
-			jQuery("#patientSearchResult").toggle();
-		},
-		
 		/** VALIDATE FORM */
 		validateRegisterForm: function(){			
 		
@@ -221,11 +203,6 @@
 				return false;
 			}
 			
-			if(StringUtils.isBlank(jQuery("#opdWard").val())){
-				alert("Please select OPD ward");
-				return false;
-			};
-			
 			if(!VALIDATORS.validatePatientCategory()){
 				return false;
 			}
@@ -246,7 +223,7 @@
 			 && jQuery("#patCatGovEmp").attr('checked') == false 
 			 && jQuery("#rsby").attr('checked') == false 
 			 && jQuery("#bpl").attr('checked') == false) {
-	            alert('You didn\'t choose any of the patient categories!');
+	            alert('You didn\'t choose any of the patient category!');
 	            return false;
 	        } else {
 	            if (jQuery("#rsby").attr('checked')) {
@@ -266,7 +243,7 @@
 	    },
 	
 		/** CHECK WHEN BPL CATEGORY IS SELECTED */
-		bplCheck: function () {			
+		bplCheck: function () {						
 	        if (jQuery("#bpl").is(':checked')) {
 	            jQuery("#bplField").show();
 	            if (jQuery("#patCatGeneral").is(":checked")) jQuery("#patCatGeneral").removeAttr("checked");
@@ -308,7 +285,7 @@
 					jQuery("#rsbyNumber").val("");
 					jQuery("#rsbyField").hide();
 				}
-	            if (jQuery("#patCatPoor").is(":checked")) jQuery("#patCatPoor").removeAttr("checked");;
+	            if (jQuery("#patCatPoor").is(":checked")) jQuery("#patCatPoor").removeAttr("checked");
 	        }
 	    },
 		/** CHECK WHEN POOR CATEGORY IS SELECTED */
@@ -345,9 +322,7 @@
 		<tr>
 			<td valign="top" class="cell"><b>Name *</b></td>
 			<td class="cell">
-				<input id="patientName" type="hidden" name="patient.name"/>
-				<div id="searchbox"></div>
-				<div id="numberOfFoundPatients"></div>
+				<input id="patientName" name="patient.name" style="width:300px;"/>				
 			</td>
 		</tr>		
 		<tr>
@@ -410,35 +385,7 @@
 				SO/DO/WO: <br/>
 				<input id="patientRelativeName" name="person.attribute.8" style="width:200px;"/>
 			</td>
-		</tr>
-		<tr>
-			<td class="cell"><b>Visit Information</b></td>
-			<td class="cell">				
-				<b>Referral Information</b><br/>
-				<input type="checkbox" id="referred" onClick="PAGE.toogleReferralInfo(this);" name="patient.referred" value="referred"/> Referred<br/>				
-				<div id="referralDiv" style="display:none;">
-					<table>
-						<tr>
-							<td>Referred From</td>
-							<td>
-								<select id="referralHospitals" name="patient.referred.from" style="width:200px;">
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>Referral Type</td>
-							<td>
-								<select id="referralReasons" name="patient.referred.reason" style="width:200px;">
-								</select>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<b>OPD Room to Visit: *</b>
-				<select id="opdWard" name="patient.opdWard">
-				</select>
-			</td>
-		</tr>
+		</tr>		
 		<tr>
 			<td valign="top" class="cell"><b>Patient information</b></td>
 			<td class="cell">

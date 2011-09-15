@@ -6,6 +6,7 @@ import java.util.Map;
 import org.openmrs.Patient;
 import org.openmrs.PersonAttribute;
 import org.openmrs.module.hospitalcore.util.PatientUtil;
+import org.openmrs.module.registration.util.RegistrationUtils;
 
 public class PatientModel {
 
@@ -16,12 +17,13 @@ public class PatientModel {
 	private String gender;
 	private String category;
 	private String address;
+	private String birthdate;
 	private Map<Integer, String> attributes = new HashMap<Integer, String>();
 
 	public PatientModel(Patient patient) {
 		setPatientId(patient.getPatientId().toString());
 		setIdentifier(patient.getPatientIdentifier().getIdentifier());
-		setFullname(PatientUtil.getFullName(patient));
+		setFullname(PatientUtil.getFullName(patient));		
 		if (patient.getAge() > 1) {
 			setAge(String.format("%s years old, %s", patient.getAge(), PatientUtil.getAgeCategory(patient)));
 		} else {
@@ -36,6 +38,8 @@ public class PatientModel {
 
 		setAddress(patient.getPersonAddress().getCityVillage() + ", "
 				+ patient.getPersonAddress().getCountyDistrict());
+		
+		setBirthdate(RegistrationUtils.formatDate(patient.getBirthdate()));
 
 		Map<String, PersonAttribute> attributes = patient.getAttributeMap();
 		for (String key : attributes.keySet()) {
@@ -106,5 +110,13 @@ public class PatientModel {
 
 	public void setPatientId(String patientId) {
 		this.patientId = patientId;
+	}
+
+	public String getBirthdate() {
+		return birthdate;
+	}
+
+	public void setBirthdate(String birthdate) {
+		this.birthdate = birthdate;
 	}
 }

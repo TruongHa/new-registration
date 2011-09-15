@@ -49,7 +49,7 @@ public class FindCreatePatientController {
 				"referralReasons",
 				RegistrationWebUtils
 						.getSubConcepts(RegistrationConstants.CONCEPT_NAME_REASON_FOR_REFERRAL));
-		RegistrationWebUtils.getAddressData(model);
+		RegistrationWebUtils.getAddressData(model);		
 		return "/module/registration/patient/findCreatePatient";
 	}
 
@@ -90,7 +90,7 @@ public class FindCreatePatientController {
 		// get person name
 		if (!StringUtils.isBlank(parameters
 				.get(RegistrationConstants.FORM_FIELD_PATIENT_NAME))) {
-			PersonName personName = RegistrationUtils.getPersonName(parameters
+			PersonName personName = RegistrationUtils.getPersonName(null, parameters
 					.get(RegistrationConstants.FORM_FIELD_PATIENT_NAME));
 			patient.addName(personName);
 		}
@@ -128,9 +128,9 @@ public class FindCreatePatientController {
 				.isBlank(parameters
 						.get(RegistrationConstants.FORM_FIELD_PATIENT_ADDRESS_DISTRICT))) {
 			patient.addAddress(RegistrationUtils.getPersonAddress(
+					null,
 					parameters
-							.get(RegistrationConstants.FORM_FIELD_PATIENT_ADDRESS_DISTRICT),
-					parameters
+							.get(RegistrationConstants.FORM_FIELD_PATIENT_ADDRESS_DISTRICT), parameters
 							.get(RegistrationConstants.FORM_FIELD_PATIENT_ADDRESS_TEHSIL)));
 		}
 

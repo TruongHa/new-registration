@@ -26,6 +26,7 @@ public class RegistrationUtils {
 
 	/**
 	 * Parse Date
+	 * 
 	 * @param date
 	 * @return
 	 * @throws ParseException
@@ -33,45 +34,52 @@ public class RegistrationUtils {
 	public static Date parseDate(String date) throws ParseException {
 		return sdf.parse(date);
 	}
-	
+
 	/**
 	 * Format date
+	 * 
 	 * @param date
 	 * @return
 	 */
-	public static String formatDate(Date date){
+	public static String formatDate(Date date) {
 		return sdf.format(date);
 	}
 
 	/**
 	 * Generate person name
 	 * 
+	 * @param personName
+	 *            TODO
 	 * @param name
+	 * 
 	 * @return
 	 */
-	public static PersonName getPersonName(String name) {
-		PersonName pn = new PersonName();
+	public static PersonName getPersonName(PersonName personName, String name) {
+
+		if (personName == null)
+			personName = new PersonName();
 
 		@SuppressWarnings("deprecation")
 		String fullname = StringUtils.capitaliseAllWords(name).trim();
 		String[] parts = fullname.split(" ");
 		if (parts.length == 1) {
-			pn.setGivenName(parts[0]);
+			personName.setGivenName(parts[0]);
 		} else if (parts.length == 2) {
-			pn.setGivenName(parts[0]);
-			pn.setFamilyName(parts[1]);
+			personName.setGivenName(parts[0]);
+			personName.setFamilyName(parts[1]);
 		} else if (parts.length > 2) {
-			pn.setGivenName(parts[0]);
-			pn.setMiddleName(parts[1]);
+			personName.setGivenName(parts[0]);
+			personName.setMiddleName(parts[1]);
 
 			String familyName = "";
 			for (int i = 2; i < parts.length; i++) {
 				familyName += parts[i] + " ";
 			}
 			familyName = familyName.trim();
-			pn.setFamilyName(familyName);
+			personName.setFamilyName(familyName);
 		}
-		return pn;
+		personName.setPreferred(true);
+		return personName;
 	}
 
 	/**
@@ -146,34 +154,44 @@ public class RegistrationUtils {
 		sum = Math.abs(sum) + 10;
 		return (10 - (sum % 10)) % 10;
 	}
-	
+
 	/**
 	 * Get person address
+	 * 
+	 * @param address
+	 *            TODO
 	 * @param district
 	 * @param tehsil
 	 * @return
 	 */
-	public static PersonAddress getPersonAddress(String district, String tehsil){
-		PersonAddress address = new PersonAddress();
-		
+	public static PersonAddress getPersonAddress(PersonAddress address,
+			String district, String tehsil) {
+
+		if (address == null)
+			address = new PersonAddress();
+
 		address.setCountyDistrict(district);
 		address.setCityVillage(tehsil);
-		
+
 		return address;
 	}
-	
+
 	/**
 	 * Get person attribute
+	 * 
 	 * @param id
 	 * @param value
 	 * @return
 	 */
-	public static PersonAttribute getPersonAttribute(Integer id, String value){
-		PersonAttributeType type = Context.getPersonService().getPersonAttributeType(id);		
+	public static PersonAttribute getPersonAttribute(Integer id, String value) {
+		PersonAttributeType type = Context.getPersonService()
+				.getPersonAttributeType(id);
 		PersonAttribute attribute = new PersonAttribute();
 		attribute.setAttributeType(type);
 		attribute.setValue(value);
-		logger.info(String.format("Saving new person attribute [name=%s, value=%s]", type.getName(), value));
+		logger.info(String.format(
+				"Saving new person attribute [name=%s, value=%s]",
+				type.getName(), value));
 		return attribute;
 	}
 }
