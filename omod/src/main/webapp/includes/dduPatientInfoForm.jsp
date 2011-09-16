@@ -116,6 +116,7 @@
 <span id="validationDate"></span>
 <div id="patientInfoPrintArea">
 	<center>
+		<img src="${pageContext.request.contextPath}/moduleResources/registration/header.jpg"/>
 		<form id="patientInfoForm" method="POST">	
 			<table cellspacing="10">
 				<tr>
@@ -161,11 +162,10 @@
 					<td valign="top"><b>Temporary Categories:</b></td>
 					<td colspan="5">
 						<input type="checkbox" name="temporary.attribute.7100" value="MLC"/> MLC <br/>
-						<input type="checkbox" name="temporary.attribute.7100" value="Accident"/> Accident <br/>
-						<input type="checkbox" name="temporary.attribute.7100" value="Less than 1 year"/> Less than 1 year 
 					</td>
 				</tr>
 			</table>
 		</form>
 	</center>	
+	<img src="${pageContext.request.contextPath}/moduleResources/registration/investigations.jpg"/>
 </div>
